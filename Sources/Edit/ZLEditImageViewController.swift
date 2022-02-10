@@ -315,6 +315,14 @@ open class ZLEditImageViewController: UIViewController {
             self.generateFilterImages()
         }
     }
+    private var hasClip = false
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if ZLPhotoConfiguration.default().mapDoneToPreview, ZLPhotoConfiguration.default().editImageConfiguration.tools.contains(.clip), !hasClip {
+            hasClip = true
+            clipBtnClick()
+        }
+    }
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -720,6 +728,10 @@ open class ZLEditImageViewController: UIViewController {
         }
         
         vc.cancelClipBlock = { [weak self] () in
+            if ZLPhotoConfiguration.default().mapDoneToPreview {
+                self?.cancelBtnClick()
+                return
+            }
             self?.resetContainerViewFrame()
         }
         

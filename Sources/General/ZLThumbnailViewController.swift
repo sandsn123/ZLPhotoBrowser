@@ -460,8 +460,12 @@ class ZLThumbnailViewController: UIViewController {
     }
     
     @objc func doneBtnClick() {
-        let nav = self.navigationController as? ZLImageNavController
-        nav?.selectImageBlock?()
+        if ZLPhotoConfiguration.default().mapDoneToPreview {
+            previewBtnClick()
+        } else {
+            let nav = self.navigationController as? ZLImageNavController
+            nav?.selectImageBlock?()
+        }
     }
     
     @objc func deviceOrientationChanged(_ notify: Notification) {

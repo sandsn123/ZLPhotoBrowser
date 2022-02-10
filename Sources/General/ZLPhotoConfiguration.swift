@@ -185,7 +185,7 @@ public class ZLPhotoConfiguration: NSObject {
     @objc public var allowDragSelect = false
     
     /// Allow select full image. Defaults to true.
-    @objc public var allowSelectOriginal = true
+    @objc public var allowSelectOriginal = false
     
     /// Allow access to the preview large image interface (That is, whether to allow access to the large image interface after clicking the thumbnail image). Defaults to true.
     @objc public var allowPreviewPhotos = true
@@ -195,6 +195,18 @@ public class ZLPhotoConfiguration: NSObject {
     
     /// Whether to show the preview button (i.e. the preview button in the lower left corner of the thumbnail interface). Defaults to true.
     @objc public var showPreviewButtonInAlbum = true
+    
+    /// 点击确定显示编辑
+    @objc public var mapDoneToPreview = true {
+        didSet {
+            if mapDoneToPreview {
+                editImageConfiguration.tools = [.clip]
+                editImageConfiguration.clipRatios = [ZLImageClipRatio(title: "750/422", whRatio: 750/422)]
+                maxSelectCount = 1
+                showPreviewButtonInAlbum = false
+            }
+        }
+    }
     
     private var pri_columnCount: Int = 4
     /// The column count when iPhone is in portait mode. Minimum is 2, maximum is 6. Defaults to 4.

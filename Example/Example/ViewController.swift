@@ -147,6 +147,7 @@ class ViewController: UIViewController {
     }
     
     func showImagePicker(_ preview: Bool) {
+        ZLPhotoConfiguration.default().mapDoneToPreview = true
         let editImageConfiguration = ZLPhotoConfiguration.default().editImageConfiguration
         editImageConfiguration
             .imageStickerContainerView(ImageStickerContainerView())

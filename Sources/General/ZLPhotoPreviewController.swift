@@ -326,6 +326,10 @@ class ZLPhotoPreviewController: UIViewController {
         self.bottomView.addSubview(self.doneBtn)
         
         self.view.bringSubviewToFront(self.navView)
+        
+        if ZLPhotoConfiguration.default().mapDoneToPreview {
+            editBtnClick()
+        }
     }
     
     func addPopInteractiveTransition() {
@@ -587,7 +591,12 @@ class ZLPhotoPreviewController: UIViewController {
     func showEditImageVC(image: UIImage) {
         let model = self.arrDataSources[self.currentIndex]
         let nav = self.navigationController as! ZLImageNavController
-        ZLEditImageViewController.showEditImageVC(parentVC: self, image: image, editModel: model.editImageModel) { [weak self, weak nav] (ei, editImageModel) in
+        ZLEditImageViewController.showEditImageVC(parentVC: self, image: image, editModel: model.editImageModel, cancel: { [weak self] in
+            guard ZLPhotoConfiguration.default().mapDoneToPreview else {
+                return
+            }
+            self?.backBtnClick()
+        }) { [weak self, weak nav] (ei, editImageModel) in
             guard let `self` = self else { return }
             model.editImage = ei
             model.editImageModel = editImageModel
