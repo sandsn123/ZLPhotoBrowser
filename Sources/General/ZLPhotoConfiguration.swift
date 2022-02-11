@@ -196,7 +196,7 @@ public class ZLPhotoConfiguration: NSObject {
     /// Whether to show the preview button (i.e. the preview button in the lower left corner of the thumbnail interface). Defaults to true.
     @objc public var showPreviewButtonInAlbum = true
     
-    public enum MyClipType: Int {
+    public enum MyClipType {
         case avator
         case logo
         case cover

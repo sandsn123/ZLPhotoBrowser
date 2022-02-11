@@ -147,7 +147,7 @@ class ViewController: UIViewController {
     }
     
     func showImagePicker(_ preview: Bool) {
-        ZLPhotoConfiguration.default().customClipType = .cover
+//        ZLPhotoConfiguration.default().customClipType = .cover
         let editImageConfiguration = ZLPhotoConfiguration.default().editImageConfiguration
         editImageConfiguration
             .imageStickerContainerView(ImageStickerContainerView())
@@ -220,7 +220,7 @@ class ViewController: UIViewController {
         )
         
         let videoSuffixs = ["mp4", "mov", "avi", "rmvb", "rm", "flv", "3gp", "wmv", "vob", "dat", "m4v", "f4v", "mkv"] // and more suffixs
-        let vc = ZLImagePreviewController(datas: datas, index: 0, showSelectBtn: true) { (url) -> ZLURLType in
+        let vc = ZLImagePreviewController(datas: datas, index: 0, showSelectBtn: false, showBottomView: false) { (url) -> ZLURLType in
             // Just for demo.
             if url.absoluteString == netVideoUrlString {
                 return .video
