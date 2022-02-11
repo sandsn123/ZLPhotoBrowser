@@ -327,7 +327,7 @@ class ZLPhotoPreviewController: UIViewController {
         
         self.view.bringSubviewToFront(self.navView)
         
-        if ZLPhotoConfiguration.default().mapDoneToPreview {
+        if ZLPhotoConfiguration.default().customClipType != nil  {
             editBtnClick()
         }
     }
@@ -592,7 +592,7 @@ class ZLPhotoPreviewController: UIViewController {
         let model = self.arrDataSources[self.currentIndex]
         let nav = self.navigationController as! ZLImageNavController
         ZLEditImageViewController.showEditImageVC(parentVC: self, image: image, editModel: model.editImageModel, cancel: { [weak self] in
-            guard ZLPhotoConfiguration.default().mapDoneToPreview else {
+            guard ZLPhotoConfiguration.default().customClipType != nil else {
                 return
             }
             self?.backBtnClick()
@@ -608,7 +608,12 @@ class ZLPhotoPreviewController: UIViewController {
             } else {
                 self.selPhotoPreview?.refreshCell(for: model)
             }
-            self.collectionView.reloadItems(at: [IndexPath(row: self.currentIndex, section: 0)])
+            
+            guard ZLPhotoConfiguration.default().customClipType != nil else {
+                self.collectionView.reloadItems(at: [IndexPath(row: self.currentIndex, section: 0)])
+                return
+            }
+            self.doneBtnClick()
         }
     }
     

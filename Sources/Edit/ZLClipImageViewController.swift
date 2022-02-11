@@ -346,7 +346,10 @@ class ZLClipImageViewController: UIViewController {
         self.rotateBtn.adjustsImageWhenHighlighted = false
         self.rotateBtn.zl_enlargeValidTouchArea(inset: 20)
         self.rotateBtn.addTarget(self, action: #selector(rotateBtnClick), for: .touchUpInside)
-        self.view.addSubview(self.rotateBtn)
+        if ZLPhotoConfiguration.default().customClipType == nil {
+            self.view.addSubview(self.rotateBtn)
+        }
+        
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = ZLClipImageViewController.clipRatioItemSize
@@ -504,8 +507,14 @@ class ZLClipImageViewController: UIViewController {
     @objc func cancelBtnClick() {
         self.dismissAnimateFromRect = self.cancelClipAnimateFrame
         self.dismissAnimateImage = self.presentAnimateImage
-        self.cancelClipBlock?()
-        self.dismiss(animated: self.animate, completion: nil)
+        if ZLPhotoConfiguration.default().customClipType != nil {
+            self.dismiss(animated: true) {
+                self.cancelClipBlock?()
+            }
+        } else {
+            self.cancelClipBlock?()
+            self.dismiss(animated: self.animate, completion: nil)
+        }
     }
     
     @objc func revertBtnClick() {
@@ -528,8 +537,14 @@ class ZLClipImageViewController: UIViewController {
                 self.clipDoneBlock?(self.angle, image.editRect, self.selectedRatio)
             }
         } else {
-            clipDoneBlock?(angle, image.editRect, selectedRatio)
-            dismiss(animated: animate, completion: nil)
+            if ZLPhotoConfiguration.default().customClipType != nil {
+                dismiss(animated: animate) {
+                    self.clipDoneBlock?(self.angle, image.editRect, self.selectedRatio)
+                }
+            } else {
+                clipDoneBlock?(angle, image.editRect, selectedRatio)
+                dismiss(animated: animate, completion: nil)
+            }
         }
     }
     

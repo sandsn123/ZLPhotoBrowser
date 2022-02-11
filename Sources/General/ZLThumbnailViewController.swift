@@ -460,7 +460,7 @@ class ZLThumbnailViewController: UIViewController {
     }
     
     @objc func doneBtnClick() {
-        if ZLPhotoConfiguration.default().mapDoneToPreview {
+        if ZLPhotoConfiguration.default().customClipType != nil  {
             previewBtnClick()
         } else {
             let nav = self.navigationController as? ZLImageNavController

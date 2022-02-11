@@ -318,7 +318,7 @@ open class ZLEditImageViewController: UIViewController {
     private var hasClip = false
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if ZLPhotoConfiguration.default().mapDoneToPreview, ZLPhotoConfiguration.default().editImageConfiguration.tools.contains(.clip), !hasClip {
+        if ZLPhotoConfiguration.default().customClipType != nil, ZLPhotoConfiguration.default().editImageConfiguration.tools.contains(.clip), !hasClip {
             hasClip = true
             clipBtnClick()
         }
@@ -725,10 +725,13 @@ open class ZLEditImageViewController: UIViewController {
             self.selectRatio = selectRatio
             self.resetContainerViewFrame()
             self.reCalculateStickersFrame(oldContainerSize, oldAngle, angle)
+            if ZLPhotoConfiguration.default().customClipType != nil {
+                self.doneBtnClick()
+            }
         }
         
         vc.cancelClipBlock = { [weak self] () in
-            if ZLPhotoConfiguration.default().mapDoneToPreview {
+            if ZLPhotoConfiguration.default().customClipType != nil {
                 self?.cancelBtnClick()
                 return
             }

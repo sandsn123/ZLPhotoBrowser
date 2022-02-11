@@ -147,7 +147,7 @@ class ViewController: UIViewController {
     }
     
     func showImagePicker(_ preview: Bool) {
-        ZLPhotoConfiguration.default().mapDoneToPreview = true
+        ZLPhotoConfiguration.default().customClipType = .cover
         let editImageConfiguration = ZLPhotoConfiguration.default().editImageConfiguration
         editImageConfiguration
             .imageStickerContainerView(ImageStickerContainerView())

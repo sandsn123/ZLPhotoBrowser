@@ -196,14 +196,31 @@ public class ZLPhotoConfiguration: NSObject {
     /// Whether to show the preview button (i.e. the preview button in the lower left corner of the thumbnail interface). Defaults to true.
     @objc public var showPreviewButtonInAlbum = true
     
+    public enum MyClipType: Int {
+        case avator
+        case logo
+        case cover
+    }
+    
     /// 点击确定显示编辑
-    @objc public var mapDoneToPreview = true {
+    public var customClipType: MyClipType? = nil {
         didSet {
-            if mapDoneToPreview {
-                editImageConfiguration.tools = [.clip]
+            guard let clipType = customClipType else {
+                return
+            }
+            allowSelectVideo = false
+            useCustomCamera = false
+            saveNewImageAfterEdit = false
+            editImageConfiguration.tools = [.clip]
+            maxSelectCount = 1
+            showPreviewButtonInAlbum = false
+            switch clipType {
+            case .avator:
+                editImageConfiguration.clipRatios = [.circle]
+            case .logo:
+                editImageConfiguration.clipRatios = [.wh1x1]
+            case .cover:
                 editImageConfiguration.clipRatios = [ZLImageClipRatio(title: "750/422", whRatio: 750/422)]
-                maxSelectCount = 1
-                showPreviewButtonInAlbum = false
             }
         }
     }
